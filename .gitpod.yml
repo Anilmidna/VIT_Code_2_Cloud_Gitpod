@@ -1,0 +1,17 @@
+image: gitpod/workspace-full
+
+# Initialize tools and create a k3d (K3s) cluster automatically
+tasks:
+- init: |
+sudo service docker start || true
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.30.0/bin/linux/amd64/kubectl
+chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+command: |
+k3d cluster create myk3s --wait
+kubectl get nodes
+
+# Auto-hint to open previews when a local port is exposed
+ports:
+- port: 8080
+onOpen: open-preview
